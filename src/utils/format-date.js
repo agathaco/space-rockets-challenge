@@ -24,7 +24,6 @@ export function formatDateTime(timestamp) {
 }
 
 export function formatLaunchSiteDateTime(timestamp) {
-  // timestamp = '2017-06-23T19:10:000Z'
 
   // get the offset between launch site time zone and UTC time zone
   const timeStampOffset = timestamp.slice(-6); 
