@@ -1,6 +1,18 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/core";
+import {
+  Flex,
+  Text,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Input,
+  Button,
+  useDisclosure } from "@chakra-ui/core";
 
 import Launches from "./launches";
 import Launch from "./launch";
@@ -9,9 +21,11 @@ import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
 
 export default function App() {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <div>
-      <NavBar />
+      <NavBar openDrawer={onOpen} />
+      <FavoritesDrawer isOpen={isOpen} onClose={onClose}/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />
@@ -23,7 +37,7 @@ export default function App() {
   );
 }
 
-function NavBar() {
+function NavBar({ openDrawer }) {
   return (
     <Flex
       as="nav"
@@ -42,6 +56,36 @@ function NavBar() {
       >
         ¡SPACE·R0CKETS!
       </Text>
+      <Button onClick={openDrawer} variant="solid" variantColor="blue">
+        Favorites
+      </Button>
     </Flex>
   );
+}
+
+function FavoritesDrawer({ isOpen, onClose }) {
+  return (
+    <Drawer
+      isOpen={isOpen}
+      placement="right"
+      onClose={onClose}
+      size="sm"
+    >
+      <DrawerOverlay>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Favorites</DrawerHeader>
+          <DrawerBody>
+            <Input placeholder="Type here..." />
+          </DrawerBody>
+          <DrawerFooter>
+            <Button variant="outline" mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button color="blue">Save</Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
+  )
 }
