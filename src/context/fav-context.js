@@ -25,10 +25,12 @@ export const ContextProvider = ({ children }) => {
     const localFavLaunchPads = JSON.parse(
       localStorage.getItem("favLaunchPads")
     );
-    if (localFavLaunches)
+    if (localFavLaunches) {
       dispatch({ type: GET_LAUNCH_FAVS, launches: localFavLaunches });
-    if (localFavLaunchPads)
+    }
+    if (localFavLaunchPads) {
       dispatch({ type: GET_LAUNCHPAD_FAVS, launchPads: localFavLaunchPads });
+    }
   }, []);
 
   const addLaunchFavs = (launch) => {

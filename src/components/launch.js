@@ -69,7 +69,7 @@ function Header({ launch }) {
   const {
     state: { favLaunches },
     addLaunchFavs,
-    removeLaunchFavs
+    removeLaunchFavs,
   } = useContext(FavContext);
   const isFav = favLaunches
     .map((favItem) => favItem.flight_number)

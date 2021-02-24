@@ -44,7 +44,7 @@ export default function LaunchPads() {
   );
 }
 
-function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad }) {
   const {
     state: { favLaunchPads },
     addLaunchPadFavs,
