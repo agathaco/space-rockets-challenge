@@ -3,13 +3,15 @@ import { IconButton } from "@chakra-ui/core";
 import { Star } from "react-feather";
 
 export default function FavIcon({ isFav, addToFav, removeFromFav, ...props }) {
-  const iconStyle = isFav ? "orange" : "#dedede";
+  const iconStyle = isFav ? "orange" : "#BEBEBE";
+  const iconSize = props.size || "md";
+  const iconVariant = props.variant || "solid";
   return (
     <IconButton
       aria-label="favorite"
       as={Star}
-      variant="unstyled"
-      size="sm"
+      variant={iconVariant}
+      size={iconSize}
       onClick={() => isFav ? removeFromFav() : addToFav()}
       style={{fill: `${iconStyle}`, color: `${iconStyle}`}}
       {...props}

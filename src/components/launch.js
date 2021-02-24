@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams, Link as RouterLink } from "react-router-dom";
 import { format as timeAgo } from "timeago.js";
 import { Watch, MapPin, Navigation, Layers } from "react-feather";
@@ -19,13 +19,15 @@ import {
   Stack,
   AspectRatioBox,
   StatGroup,
-  Tooltip
+  Tooltip,
 } from "@chakra-ui/core";
 
 import { useSpaceX } from "../utils/use-space-x";
 import { formatDateTime, formatLaunchSiteDateTime } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
+import FavIcon from "./fav-icon";
+import FavContext from "../context/fav-context";
 
 export default function Launch() {
   let { launchId } = useParams();
@@ -64,6 +66,14 @@ export default function Launch() {
 }
 
 function Header({ launch }) {
+  const {
+    state: { favLaunches },
+    addLaunchFavs,
+    removeLaunchFavs
+  } = useContext(FavContext);
+  const isFav = favLaunches
+    .map((favItem) => favItem.flight_number)
+    .includes(launch.flight_number);
   return (
     <Flex
       bgImage={`url(${launch.links.flickr_images[0]})`}
@@ -84,6 +94,16 @@ function Header({ launch }) {
         height={["85px", "150px"]}
         objectFit="contain"
         objectPosition="bottom"
+      />
+      <FavIcon
+        position="absolute"
+        cursor="pointer"
+        top={5}
+        right={5}
+        size="md"
+        isFav={isFav}
+        addToFav={() => addLaunchFavs(launch)}
+        removeFromFav={() => removeLaunchFavs(launch)}
       />
       <Heading
         color="white"

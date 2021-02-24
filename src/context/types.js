@@ -1,0 +1,6 @@
+export const FAV_LAUNCH = 'FAV_LAUNCH';
+export const UNFAV_LAUNCH = 'UNFAV_LAUNCH';
+export const GET_LAUNCH_FAVS = 'GET_LAUNCH_FAVS';
+export const FAV_LAUNCHPAD = 'FAV_LAUNCHPAD';
+export const UNFAV_LAUNCHPAD = 'UNFAV_LAUNCHPAD';
+export const GET_LAUNCHPAD_FAVS = 'GET_LAUNCHPAD_FAVS';

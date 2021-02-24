@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useContext } from "react";
 import { Badge, Box, Image, SimpleGrid, Text, Flex } from "@chakra-ui/core";
 import { format as timeAgo } from "timeago.js";
 import { Link } from "react-router-dom";
-
 import { useSpaceXPaginated } from "../utils/use-space-x";
 import { formatDate } from "../utils/format-date";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavIcon from "./fav-icon";
+import FavContext from "../context/fav-context";
 
 const PAGE_SIZE = 12;
 
@@ -23,25 +23,6 @@ export default function Launches() {
   );
   console.log(data, error);
 
-  const [favorites, setFavorites] = useState([]);
-
-  useEffect(() => {
-    setFavorites(JSON.parse(localStorage.getItem("favLaunches")))
-  }, []);
-
-  const addToFav = (launch) => {
-    console.log('add to fav', launch)
-    setFavorites(currentFavorites => [...currentFavorites, launch]);
-    // TO DO: make this a callback
-    localStorage.setItem("favLaunches", JSON.stringify(favorites));
-  }
-  const removeFromFav = (launch) => {
-    console.log('remove from fav', launch)
-    setFavorites(favorites.filter(favItem => favItem.flight_number !== launch.flight_number));
-    //// TO DO: make this a callback
-    localStorage.setItem("favLaunches", JSON.stringify(favorites));
-  }
-
   return (
     <div>
       <Breadcrumbs
@@ -53,13 +34,7 @@ export default function Launches() {
           data
             .flat()
             .map((launch) => (
-              <LaunchItem 
-              launch={launch} 
-              key={launch.flight_number}
-              favorites={favorites}
-              addToFav={() => addToFav(launch)}
-              removeFromFav={() => removeFromFav(launch)}
-              />
+              <LaunchItem launch={launch} key={launch.flight_number} />
             ))}
       </SimpleGrid>
       <LoadMoreButton
@@ -72,29 +47,33 @@ export default function Launches() {
   );
 }
 
-export function LaunchItem({ launch, favorites, addToFav, removeFromFav }) {
-  console.log(favorites)
-  const isFav = favorites.map(favItem => favItem.flight_number).includes(launch.flight_number) || false;
+export function LaunchItem({ launch }) {
+  const {
+    state: { favLaunches },
+    addLaunchFavs,
+    removeLaunchFavs
+  } = useContext(FavContext);
+  const isFav = favLaunches.map((favItem) => favItem.flight_number).includes(launch.flight_number);
   return (
     <Box
-    boxShadow="md"
-    borderWidth="1px"
-    rounded="lg"
-    overflow="hidden"
-    position="relative">
+      boxShadow="md"
+      borderWidth="1px"
+      rounded="lg"
+      overflow="hidden"
+      position="relative"
+    >
       <FavIcon
         position="absolute"
         cursor="pointer"
         bottom={5}
         right={5}
+        size="sm"
+        variant="unstyled"
         isFav={isFav}
-        addToFav={addToFav}
-        removeFromFav={removeFromFav}
-        />
-      <Box
-        as={Link}
-        to={`/launches/${launch.flight_number.toString()}`}
-      >
+        addToFav={() => addLaunchFavs(launch)}
+        removeFromFav={() => removeLaunchFavs(launch)}
+      />
+      <Box as={Link} to={`/launches/${launch.flight_number.toString()}`}>
         <Image
           src={
             launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??
@@ -155,8 +134,7 @@ export function LaunchItem({ launch, favorites, addToFav, removeFromFav }) {
               {timeAgo(launch.launch_date_utc)}
             </Text>
           </Flex>
-          <Flex>
-          </Flex>
+          <Flex></Flex>
         </Box>
       </Box>
     </Box>
