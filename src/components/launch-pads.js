@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/core";
+import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Error from "./error";
@@ -78,17 +78,15 @@ function LaunchPadItem({ launchPad }) {
         boxShadow="md"
         borderWidth="1px"
         rounded="lg"
-        // overflow="hidden"
-        // position="relative"
       >
         <Box p="6">
           <Box d="flex" alignItems="baseline">
             {launchPad.status === "active" ? (
-              <Badge px="2" variant="solid" variantColor="green">
+              <Badge px="2" variant="solid" colorScheme="green">
                 Active
               </Badge>
             ) : (
-              <Badge px="2" variant="solid" variantColor="red">
+              <Badge px="2" variant="solid" colorScheme="red">
                 Retired
               </Badge>
             )}

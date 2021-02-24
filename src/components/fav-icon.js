@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "@chakra-ui/core";
+import { IconButton } from "@chakra-ui/react";
 import { Star } from "react-feather";
 
 export default function FavIcon({ isFav, addToFav, removeFromFav, ...props }) {

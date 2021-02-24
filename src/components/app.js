@@ -1,8 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import {
-  Flex,
-  Text,
   Drawer,
   DrawerBody,
   DrawerFooter,
@@ -10,9 +8,10 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Input,
+  Flex,
+  Text,
   Button,
-  useDisclosure } from "@chakra-ui/core";
+  useDisclosure } from "@chakra-ui/react";
 
 import Launches from "./launches";
 import Launch from "./launch";
@@ -56,7 +55,7 @@ function NavBar({ openDrawer }) {
       >
         ¡SPACE·R0CKETS!
       </Text>
-      <Button onClick={openDrawer} variant="solid" variantColor="blue">
+      <Button onClick={openDrawer} variant="solid" colorScheme="blue">
         Favorites
       </Button>
     </Flex>
@@ -76,7 +75,6 @@ function FavoritesDrawer({ isOpen, onClose }) {
           <DrawerCloseButton />
           <DrawerHeader>Favorites</DrawerHeader>
           <DrawerBody>
-            <Input placeholder="Type here..." />
           </DrawerBody>
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={onClose}>
