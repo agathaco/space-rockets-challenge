@@ -14,6 +14,7 @@ import {
   DrawerContent,
   DrawerCloseButton,
   Flex,
+  Heading,
   Text,
   Button,
   SimpleGrid,
@@ -80,26 +81,24 @@ function FavoritesDrawer({ isOpen, onClose }) {
     state: { favLaunches, favLaunchPads },
   } = useContext(FavContext);
   return (
-    <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="sm">
+    <Drawer isOpen={isOpen} onClose={onClose} size="sm" placement="right">
       <DrawerOverlay>
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader>Favorites</DrawerHeader>
           <DrawerBody>
-            {!favLaunches.length ? <Text>No favorites yet...</Text> : ""}
-
             <Accordion allowMultiple defaultIndex={[0, 1]}>
               <AccordionItem>
                 <h2>
                   <AccordionButton>
                     <Box flex="1" textAlign="left">
-                      Favorite Launches ({favLaunches.length})
+                      <Heading size="md">Favorite Launches ({favLaunches.length})</Heading>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel>
-                  <SimpleGrid columns={1} spacing={10}>
+                  <SimpleGrid  spacing={5}>
                     {favLaunches.map((launch) => (
                       <LaunchItem
                         launch={launch}
@@ -113,13 +112,13 @@ function FavoritesDrawer({ isOpen, onClose }) {
                 <h2>
                   <AccordionButton>
                     <Box flex="1" textAlign="left">
-                      Favorite LaunchPads ({favLaunchPads.length})
+                    <Heading size="md">Favorite LaunchPads ({favLaunchPads.length})</Heading>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel>
-                <SimpleGrid columns={1} spacing={10}>
+                <SimpleGrid spacing={5}>
                 {favLaunchPads.map((launchPad) => (
                   <LaunchPadItem
                     launchPad={launchPad}
