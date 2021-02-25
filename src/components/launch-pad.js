@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useParams } from "react-router-dom";
 import { MapPin, Navigation } from "react-feather";
 import {
@@ -14,13 +14,16 @@ import {
   Text,
   Spinner,
   Stack,
-  AspectRatioBox,
-} from "@chakra-ui/core";
+  AspectRatio,
+} from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
 import Breadcrumbs from "./breadcrumbs";
 import { LaunchItem } from "./launches";
+
+import FavIcon from "./fav-icon";
+import FavContext from "../context/fav-context";
 
 export default function LaunchPad() {
   let { launchPadId } = useParams();
@@ -68,6 +71,14 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const {
+    state: { favLaunchPads },
+    addLaunchPadFavs,
+    removeLaunchPadFavs,
+  } = useContext(FavContext);
+  const isFav = favLaunchPads
+    .map((favItem) => favItem.id)
+    .includes(launchPad.id);
   return (
     <Flex
       background={`linear-gradient(${randomColor()}, ${randomColor()})`}
@@ -81,6 +92,16 @@ function Header({ launchPad }) {
       alignItems="flex-end"
       justifyContent="space-between"
     >
+      <FavIcon
+        position="absolute"
+        cursor="pointer"
+        top={5}
+        right={5}
+        size="md"
+        isFav={isFav}
+        addToFav={() => addLaunchPadFavs(launchPad)}
+        removeFromFav={() => removeLaunchPadFavs(launchPad)}
+      />
       <Heading
         color="gray.900"
         display="inline"
@@ -92,16 +113,16 @@ function Header({ launchPad }) {
         {launchPad.site_name_long}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge variantColor="purple" fontSize={["sm", "md"]}>
+        <Badge colorScheme="purple" fontSize={["sm", "md"]}>
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
         {launchPad.stats === "active" ? (
-          <Badge variantColor="green" fontSize={["sm", "md"]}>
+          <Badge colorScheme="green" fontSize={["sm", "md"]}>
             Active
           </Badge>
         ) : (
-          <Badge variantColor="red" fontSize={["sm", "md"]}>
+          <Badge colorScheme="red" fontSize={["sm", "md"]}>
             Retired
           </Badge>
         )}
@@ -140,13 +161,13 @@ function LocationAndVehicles({ launchPad }) {
 
 function Map({ location }) {
   return (
-    <AspectRatioBox ratio={16 / 5}>
+    <AspectRatio ratio={16 / 5}>
       <Box
         as="iframe"
         src={`https://maps.google.com/maps?q=${location.latitude}, ${location.longitude}&z=15&output=embed`}
         alt="demo"
       />
-    </AspectRatioBox>
+    </AspectRatio>
   );
 }
 

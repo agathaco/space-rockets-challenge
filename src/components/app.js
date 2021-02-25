@@ -1,17 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Flex, Text } from "@chakra-ui/core";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  SimpleGrid,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { Star } from "react-feather";
 
 import Launches from "./launches";
 import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
+import { LaunchItem } from "./launches";
+import { LaunchPadItem } from "./launch-pads";
+
+import FavContext from "../context/fav-context";
 
 export default function App() {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   return (
     <div>
-      <NavBar />
+      <NavBar openDrawer={onOpen} />
+      <FavoritesDrawer isOpen={isOpen} onClose={onClose} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/launches" element={<Launches />} />
@@ -23,7 +49,7 @@ export default function App() {
   );
 }
 
-function NavBar() {
+function NavBar({ openDrawer }) {
   return (
     <Flex
       as="nav"
@@ -42,6 +68,70 @@ function NavBar() {
       >
         ¡SPACE·R0CKETS!
       </Text>
+      <Button onClick={openDrawer} variant="solid" colorScheme="blue">
+      <Star style={{ fill: "orange", color: "orange", marginRight: 10 }} />
+        Favorites
+      </Button>
     </Flex>
+  );
+}
+
+function FavoritesDrawer({ isOpen, onClose }) {
+  const {
+    state: { favLaunches, favLaunchPads },
+  } = useContext(FavContext);
+  return (
+    <Drawer isOpen={isOpen} onClose={onClose} size="sm" placement="right">
+      <DrawerOverlay>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Favorites</DrawerHeader>
+          <DrawerBody>
+            <Accordion allowMultiple defaultIndex={[0, 1]}>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      <Heading size="md">Favorite Launches ({favLaunches.length})</Heading>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel>
+                  <SimpleGrid  spacing={5}>
+                    {favLaunches.map((launch) => (
+                      <LaunchItem
+                        launch={launch}
+                        key={launch.flight_number}
+                      />
+                    ))}
+                  </SimpleGrid>
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                    <Heading size="md">Favorite LaunchPads ({favLaunchPads.length})</Heading>
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel>
+                <SimpleGrid spacing={5}>
+                {favLaunchPads.map((launchPad) => (
+                  <LaunchPadItem
+                    launchPad={launchPad}
+                    key={launchPad.site_id}
+                  />
+                ))}
+              </SimpleGrid>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </DrawerBody>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
   );
 }
