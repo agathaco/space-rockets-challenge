@@ -3,11 +3,11 @@ import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+import Breadcrumbs from "./UI/breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 
-import FavIcon from "./fav-icon";
+import FavIcon from "./UI/fav-icon";
 import FavContext from "../context/fav-context";
 
 const PAGE_SIZE = 12;

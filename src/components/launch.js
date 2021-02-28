@@ -20,16 +20,19 @@ import {
   AspectRatio,
   StatGroup,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import { formatDateTime, formatLaunchSiteDateTime } from "../utils/format-date";
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
-import FavIcon from "./fav-icon";
+import Breadcrumbs from "./UI/breadcrumbs";
+import FavIcon from "./UI/fav-icon";
 import FavContext from "../context/fav-context";
 
 export default function Launch() {
+  const launchDetailsTextColor = useColorModeValue("gray.700", "gray.400");
+
   let { launchId } = useParams();
   const { data: launch, error } = useSpaceX(`/launches/${launchId}`);
 
@@ -55,7 +58,11 @@ export default function Launch() {
       <Box m={[3, 6]}>
         <TimeAndLocation launch={launch} />
         <RocketInfo launch={launch} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+        <Text
+          color={launchDetailsTextColor}
+          fontSize={["md", null, "lg"]}
+          my="8"
+        >
           {launch.details}
         </Text>
         <Video launch={launch} />
@@ -66,6 +73,7 @@ export default function Launch() {
 }
 
 function Header({ launch }) {
+  const badgeVariant = useColorModeValue("subtle", "solid");
   const {
     state: { favLaunches },
     addLaunchFavs,
@@ -117,15 +125,27 @@ function Header({ launch }) {
         {launch.mission_name}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge colorScheme="purple" fontSize={["xs", "md"]}>
+        <Badge
+          colorScheme="purple"
+          variant={badgeVariant}
+          fontSize={["xs", "md"]}
+        >
           #{launch.flight_number}
         </Badge>
         {launch.launch_success ? (
-          <Badge colorScheme="green" fontSize={["xs", "md"]}>
+          <Badge
+            colorScheme="green"
+            variant={badgeVariant}
+            fontSize={["xs", "md"]}
+          >
             Successful
           </Badge>
         ) : (
-          <Badge colorScheme="red" fontSize={["xs", "md"]}>
+          <Badge
+            colorScheme="red"
+            variant={badgeVariant}
+            fontSize={["xs", "md"]}
+          >
             Failed
           </Badge>
         )}

@@ -15,10 +15,12 @@ import {
   DrawerCloseButton,
   Flex,
   Heading,
+  Icon,
   Text,
   Button,
   SimpleGrid,
   useDisclosure,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Star } from "react-feather";
 
@@ -27,6 +29,7 @@ import Launch from "./launch";
 import Home from "./home";
 import LaunchPads from "./launch-pads";
 import LaunchPad from "./launch-pad";
+import ColorMode from "./UI/color-mode";
 import { LaunchItem } from "./launches";
 import { LaunchPadItem } from "./launch-pads";
 
@@ -50,6 +53,9 @@ export default function App() {
 }
 
 function NavBar({ openDrawer }) {
+  const starFill = useColorModeValue("orange", "orange.300")
+  const starOutline = useColorModeValue("orange", "orange.400")
+
   return (
     <Flex
       as="nav"
@@ -68,10 +74,19 @@ function NavBar({ openDrawer }) {
       >
         ¡SPACE·R0CKETS!
       </Text>
-      <Button onClick={openDrawer} variant="solid" colorScheme="blue">
-      <Star style={{ fill: "orange", color: "orange", marginRight: 10 }} />
-        Favorites
-      </Button>
+      <Box>
+        <Button onClick={openDrawer} variant="solid" colorScheme="blue" mr="4">
+          <Icon
+            as={Star}
+            boxSize={6}
+            color={starOutline}
+            fill={starFill}
+            mr="2"
+          />
+          Favorites
+        </Button>
+        <ColorMode />
+      </Box>
     </Flex>
   );
 }
@@ -92,18 +107,17 @@ function FavoritesDrawer({ isOpen, onClose }) {
                 <h2>
                   <AccordionButton>
                     <Box flex="1" textAlign="left">
-                      <Heading size="md">Favorite Launches ({favLaunches.length})</Heading>
+                      <Heading size="md">
+                        Favorite Launches ({favLaunches.length})
+                      </Heading>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel>
-                  <SimpleGrid  spacing={5}>
+                  <SimpleGrid spacing={5}>
                     {favLaunches.map((launch) => (
-                      <LaunchItem
-                        launch={launch}
-                        key={launch.flight_number}
-                      />
+                      <LaunchItem launch={launch} key={launch.flight_number} />
                     ))}
                   </SimpleGrid>
                 </AccordionPanel>
@@ -112,20 +126,22 @@ function FavoritesDrawer({ isOpen, onClose }) {
                 <h2>
                   <AccordionButton>
                     <Box flex="1" textAlign="left">
-                    <Heading size="md">Favorite LaunchPads ({favLaunchPads.length})</Heading>
+                      <Heading size="md">
+                        Favorite LaunchPads ({favLaunchPads.length})
+                      </Heading>
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 <AccordionPanel>
-                <SimpleGrid spacing={5}>
-                {favLaunchPads.map((launchPad) => (
-                  <LaunchPadItem
-                    launchPad={launchPad}
-                    key={launchPad.site_id}
-                  />
-                ))}
-              </SimpleGrid>
+                  <SimpleGrid spacing={5}>
+                    {favLaunchPads.map((launchPad) => (
+                      <LaunchPadItem
+                        launchPad={launchPad}
+                        key={launchPad.site_id}
+                      />
+                    ))}
+                  </SimpleGrid>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>

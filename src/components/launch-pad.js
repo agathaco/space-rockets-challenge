@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { MapPin, Navigation } from "react-feather";
 import {
@@ -15,17 +15,20 @@ import {
   Spinner,
   Stack,
   AspectRatio,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useSpaceX } from "../utils/use-space-x";
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+import Breadcrumbs from "./UI/breadcrumbs";
 import { LaunchItem } from "./launches";
 
-import FavIcon from "./fav-icon";
+import FavIcon from "./UI/fav-icon";
 import FavContext from "../context/fav-context";
 
 export default function LaunchPad() {
+  const launchDetailsTextColor = useColorModeValue("gray.700", "gray.400");
+
   let { launchPadId } = useParams();
   const { data: launchPad, error } = useSpaceX(`/launchpads/${launchPadId}`);
 
@@ -57,7 +60,11 @@ export default function LaunchPad() {
       <Header launchPad={launchPad} />
       <Box m={[3, 6]}>
         <LocationAndVehicles launchPad={launchPad} />
-        <Text color="gray.700" fontSize={["md", null, "lg"]} my="8">
+        <Text
+          color={launchDetailsTextColor}
+          fontSize={["md", null, "lg"]}
+          my="8"
+        >
           {launchPad.details}
         </Text>
         <Map location={launchPad.location} />
@@ -71,6 +78,7 @@ const randomColor = (start = 200, end = 250) =>
   `hsl(${start + end * Math.random()}, 80%, 90%)`;
 
 function Header({ launchPad }) {
+  const badgeVariant = useColorModeValue("subtle", "solid");
   const {
     state: { favLaunchPads },
     addLaunchPadFavs,
@@ -113,16 +121,28 @@ function Header({ launchPad }) {
         {launchPad.site_name_long}
       </Heading>
       <Stack isInline spacing="3">
-        <Badge colorScheme="purple" fontSize={["sm", "md"]}>
+        <Badge
+          colorScheme="purple"
+          variant={badgeVariant}
+          fontSize={["sm", "md"]}
+        >
           {launchPad.successful_launches}/{launchPad.attempted_launches}{" "}
           successful
         </Badge>
         {launchPad.stats === "active" ? (
-          <Badge colorScheme="green" fontSize={["sm", "md"]}>
+          <Badge
+            colorScheme="green"
+            variant={badgeVariant}
+            fontSize={["sm", "md"]}
+          >
             Active
           </Badge>
         ) : (
-          <Badge colorScheme="red" fontSize={["sm", "md"]}>
+          <Badge
+            colorScheme="red"
+            variant={badgeVariant}
+            fontSize={["sm", "md"]}
+          >
             Retired
           </Badge>
         )}
