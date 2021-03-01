@@ -273,9 +273,17 @@ function Gallery({ images }) {
   return (
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (
-        <a href={image} key={image}>
-          <Image src={image.replace("_o.jpg", "_z.jpg")} />
-        </a>
+        <Box overflow="hidden">
+          <a href={image} key={image}>
+            <Image
+            boxSize="100%"
+            objectFit="cover"
+            transform= "scale(1) translateZ(0)"
+            transition= "all 3s ease-in-out"
+            _hover={{ transform: "scale(1.1) translateZ(0)" }}
+            src={image.replace("_o.jpg", "_z.jpg")} />
+          </a>
+        </Box>
       ))}
     </SimpleGrid>
   );
