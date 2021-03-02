@@ -21,7 +21,6 @@ export default function Launches() {
       sort: "launch_date_utc",
     }
   );
-  console.log(data, error);
 
   return (
     <div>
@@ -47,13 +46,22 @@ export default function Launches() {
   );
 }
 
-export function LaunchItem({ launch }) {
+export function LaunchItem({ launch, isOpen, onClose }) {
+
   const {
     state: { favLaunches },
     addLaunchFavs,
     removeLaunchFavs
   } = useContext(FavContext);
-  const isFav = favLaunches.map((favItem) => favItem.flight_number).includes(launch.flight_number);
+
+  const isFav = favLaunches
+    .map((favItem) => favItem.flight_number)
+    .includes(launch.flight_number);
+
+    const closeDrawer = () => {
+      if (isOpen) onClose();
+    };
+
   return (
     <Box
       boxShadow="md"
@@ -73,7 +81,11 @@ export function LaunchItem({ launch }) {
         addToFav={() => addLaunchFavs(launch)}
         removeFromFav={() => removeLaunchFavs(launch)}
       />
-      <Box as={Link} to={`/launches/${launch.flight_number.toString()}`}>
+      <Box
+        as={Link}
+        to={`/launches/${launch.flight_number.toString()}`}
+        onClick={closeDrawer}
+      >
         <Image
           src={
             launch.links.flickr_images[0]?.replace("_o.jpg", "_z.jpg") ??

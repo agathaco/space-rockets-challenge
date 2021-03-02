@@ -44,15 +44,22 @@ export default function LaunchPads() {
   );
 }
 
-export function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad, isOpen, onClose }) {
+
   const {
     state: { favLaunchPads },
     addLaunchPadFavs,
     removeLaunchPadFavs,
   } = useContext(FavContext);
+
   const isFav = favLaunchPads
     .map((favItem) => favItem.id)
     .includes(launchPad.id);
+
+  const closeDrawer = () => {
+    if (isOpen) onClose();
+  };
+
   return (
     <Box
       boxShadow="md"
@@ -75,9 +82,7 @@ export function LaunchPadItem({ launchPad }) {
       <Box
         as={Link}
         to={`/launch-pads/${launchPad.site_id}`}
-        boxShadow="md"
-        borderWidth="1px"
-        rounded="lg"
+        onClick={closeDrawer}
       >
         <Box p="6">
           <Box d="flex" alignItems="baseline">

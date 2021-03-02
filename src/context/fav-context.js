@@ -56,7 +56,7 @@ export const ContextProvider = ({ children }) => {
         addLaunchFavs,
         removeLaunchFavs,
         addLaunchPadFavs,
-        removeLaunchPadFavs,
+        removeLaunchPadFavs
       }}
     >
       {children}
