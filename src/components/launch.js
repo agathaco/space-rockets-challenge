@@ -108,7 +108,7 @@ function Header({ launch }) {
         cursor="pointer"
         top={5}
         right={5}
-        size="md"
+        size="lg"
         isFav={isFav}
         addToFav={() => addLaunchFavs(launch)}
         removeFromFav={() => removeLaunchFavs(launch)}
@@ -273,8 +273,8 @@ function Gallery({ images }) {
   return (
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (
-        <Box overflow="hidden">
-          <a href={image} key={image}>
+        <Box overflow="hidden" key={image}>
+          <a href={image} >
             <Image
             boxSize="100%"
             objectFit="cover"

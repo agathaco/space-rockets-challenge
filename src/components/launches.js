@@ -67,7 +67,7 @@ export function LaunchItem({ launch }) {
         cursor="pointer"
         bottom={5}
         right={5}
-        size="sm"
+        size="lg"
         variant="unstyled"
         isFav={isFav}
         addToFav={() => addLaunchFavs(launch)}
