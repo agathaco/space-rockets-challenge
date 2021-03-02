@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconButton, Box, forwardRef } from "@chakra-ui/react";
 import { motion, isValidMotionProp } from "framer-motion";
 import { Star } from "react-feather";
 
-export default function FavIcon({ isFav, addToFav, removeFromFav, ...props }) {
+export default function FavIcon({ isFav, addToFav, removeFromFav, currentItem, ...props }) {
   const iconStyle = isFav ? "orange" : "#BEBEBE";
   const iconVariant = props.variant || "unstyled";
   const iconHoverColor = isFav ? "orange.300" : "gray.300";
@@ -28,11 +28,16 @@ export default function FavIcon({ isFav, addToFav, removeFromFav, ...props }) {
     if (isFav) {
       removeFromFav();
       setShowAnimation(false);
+
     } else {
       addToFav();
       setShowAnimation(true);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => setShowAnimation(false), 800);
+  }, [showAnimation]);
 
   return (
     <Box
