@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { IconButton, Box, forwardRef } from "@chakra-ui/react";
-import { motion, isValidMotionProp } from "framer-motion";
-import { Star } from "react-feather";
+import { IconButton, Box } from "@chakra-ui/react";
+import { Heart } from "react-feather";
+import { MotionBox } from "./motion-box";
 
-export default function FavIcon({ isFav, addToFav, removeFromFav, currentItem, ...props }) {
-  const iconStyle = isFav ? "orange" : "#BEBEBE";
-  const iconVariant = props.variant || "unstyled";
-  const iconHoverColor = isFav ? "orange.300" : "gray.300";
-
-  const MotionBox = motion.custom(
-    forwardRef((props, ref) => {
-      const chakraProps = Object.fromEntries(
-        Object.entries(props).filter(([key]) => !isValidMotionProp(key))
-      );
-      return <Box ref={ref} {...chakraProps} />;
-    })
-  );
+export default function FavIcon({
+  isFav,
+  addToFav,
+  removeFromFav,
+  currentItem,
+  variant,
+  ...rest
+}) {
+  const iconStyle = isFav ? "pink.300" : "gray.400";
+  const iconVariant = variant || "unstyled";
+  const iconHoverColor = isFav ? "pink.400" : "gray.300";
 
   const [showAnimation, setShowAnimation] = useState(false);
 
@@ -28,7 +26,6 @@ export default function FavIcon({ isFav, addToFav, removeFromFav, currentItem, .
     if (isFav) {
       removeFromFav();
       setShowAnimation(false);
-
     } else {
       addToFav();
       setShowAnimation(true);
@@ -43,16 +40,15 @@ export default function FavIcon({ isFav, addToFav, removeFromFav, currentItem, .
     <Box
       boxSize={12}
       borderRadius="full"
-      bg="white"
       display="flex"
       alignItems="center"
       justifyContent="center"
-      {...props}
+      {...rest}
     >
       <MotionBox onClick={handleClick} animate={showAnimation ? controls : {}}>
         <IconButton
           aria-label="favorite"
-          as={Star}
+          as={Heart}
           color={iconStyle}
           fill={iconStyle}
           size="sm"

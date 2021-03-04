@@ -105,6 +105,7 @@ function Header({ launchPad }) {
         cursor="pointer"
         top={5}
         right={5}
+        bg="whiteAlpha.500"
         size="md"
         isFav={isFav}
         addToFav={() => addLaunchPadFavs(launchPad)}

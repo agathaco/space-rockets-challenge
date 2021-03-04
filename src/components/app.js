@@ -12,11 +12,13 @@ import LaunchPad from "./launch-pad";
 import NavBar from "./UI/navbar";
 import FavDrawer from "./UI/drawer";
 
+import "./app.css"
+
 export default function App() {
   const { isOpen, onClose, onOpen } = useDisclosure();
   return (
-    <div>
-      <NavBar openDrawer={onOpen} />
+    <div className="app">
+    <NavBar openDrawer={onOpen} />
       <FavDrawer isOpen={isOpen} onClose={onClose} />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -25,6 +27,7 @@ export default function App() {
         <Route path="/launch-pads" element={<LaunchPads />} />
         <Route path="/launch-pads/:launchPadId" element={<LaunchPad />} />
       </Routes>
+
     </div>
   );
 }

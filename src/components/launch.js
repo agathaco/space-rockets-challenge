@@ -109,6 +109,7 @@ function Header({ launch }) {
         top={5}
         right={5}
         size="lg"
+        bg="whiteAlpha.500"
         isFav={isFav}
         addToFav={() => addLaunchFavs(launch)}
         removeFromFav={() => removeLaunchFavs(launch)}
@@ -274,14 +275,15 @@ function Gallery({ images }) {
     <SimpleGrid my="6" minChildWidth="350px" spacing="4">
       {images.map((image) => (
         <Box overflow="hidden" key={image}>
-          <a href={image} >
+          <a href={image}>
             <Image
-            boxSize="100%"
-            objectFit="cover"
-            transform= "scale(1) translateZ(0)"
-            transition= "all 3s ease-in-out"
-            _hover={{ transform: "scale(1.1) translateZ(0)" }}
-            src={image.replace("_o.jpg", "_z.jpg")} />
+              boxSize="100%"
+              objectFit="cover"
+              transform="scale(1) translateZ(0)"
+              transition="all 3s ease-in-out"
+              _hover={{ transform: "scale(1.1) translateZ(0)" }}
+              src={image.replace("_o.jpg", "_z.jpg")}
+            />
           </a>
         </Box>
       ))}

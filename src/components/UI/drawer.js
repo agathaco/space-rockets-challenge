@@ -24,6 +24,7 @@ export default function FavDrawer({ isOpen, onClose }) {
   const {
     state: { favLaunches, favLaunchPads },
   } = useContext(FavContext);
+
   return (
     <Drawer isOpen={isOpen} onClose={onClose} size="sm" placement="right">
       <DrawerOverlay>

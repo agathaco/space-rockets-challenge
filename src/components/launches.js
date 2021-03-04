@@ -9,8 +9,19 @@ import Breadcrumbs from "./UI/breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import FavIcon from "./UI/fav-icon";
 import FavContext from "../context/fav-context";
+import { MotionBox } from "./UI/motion-box";
 
 const PAGE_SIZE = 12;
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 1,
+    },
+  },
+};
 
 export default function Launches() {
   const { data, error, isValidating, setSize, size } = useSpaceXPaginated(
@@ -47,28 +58,31 @@ export default function Launches() {
 }
 
 export function LaunchItem({ launch, isOpen, onClose }) {
-
   const {
     state: { favLaunches },
     addLaunchFavs,
-    removeLaunchFavs
+    removeLaunchFavs,
   } = useContext(FavContext);
 
   const isFav = favLaunches
     .map((favItem) => favItem.flight_number)
     .includes(launch.flight_number);
 
-    const closeDrawer = () => {
-      if (isOpen) onClose();
-    };
+  const closeDrawer = () => {
+    if (isOpen) onClose();
+  };
 
   return (
-    <Box
+    <MotionBox
       boxShadow="md"
       borderWidth="1px"
       rounded="lg"
       overflow="hidden"
       position="relative"
+      variants={container}
+      initial="hidden"
+      animate="show"
+      exit="hidden"
     >
       <FavIcon
         position="absolute"
@@ -149,6 +163,6 @@ export function LaunchItem({ launch, isOpen, onClose }) {
           <Flex></Flex>
         </Box>
       </Box>
-    </Box>
+    </MotionBox>
   );
 }

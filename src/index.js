@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ContextProvider>
       <Router>
-        <ChakraProvider style={{background: "green"}}>
+        <ChakraProvider theme={theme}>
           <CSSReset />
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <App />
