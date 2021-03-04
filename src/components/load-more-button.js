@@ -12,7 +12,7 @@ export default function LoadMoreButton({
     (data && data[data.length - 1]?.length < pageSize);
 
   return (
-    <Flex justifyContent="center" my="100px">
+    <Flex justifyContent="center" py="100px">
       <Button onClick={loadMore} disabled={isReachingEnd || isLoadingMore}>
         {isLoadingMore ? (
           <Spinner />

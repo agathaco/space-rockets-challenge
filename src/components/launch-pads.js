@@ -3,11 +3,11 @@ import { Badge, Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
 import Error from "./error";
-import Breadcrumbs from "./breadcrumbs";
+import Breadcrumbs from "./UI/breadcrumbs";
 import LoadMoreButton from "./load-more-button";
 import { useSpaceXPaginated } from "../utils/use-space-x";
 
-import FavIcon from "./fav-icon";
+import FavIcon from "./UI/fav-icon";
 import FavContext from "../context/fav-context";
 
 const PAGE_SIZE = 12;
@@ -44,15 +44,22 @@ export default function LaunchPads() {
   );
 }
 
-export function LaunchPadItem({ launchPad }) {
+export function LaunchPadItem({ launchPad, isOpen, onClose }) {
+
   const {
     state: { favLaunchPads },
     addLaunchPadFavs,
     removeLaunchPadFavs,
   } = useContext(FavContext);
+
   const isFav = favLaunchPads
     .map((favItem) => favItem.id)
     .includes(launchPad.id);
+
+  const closeDrawer = () => {
+    if (isOpen) onClose();
+  };
+
   return (
     <Box
       boxShadow="md"
@@ -75,9 +82,7 @@ export function LaunchPadItem({ launchPad }) {
       <Box
         as={Link}
         to={`/launch-pads/${launchPad.site_id}`}
-        boxShadow="md"
-        borderWidth="1px"
-        rounded="lg"
+        onClick={closeDrawer}
       >
         <Box p="6">
           <Box d="flex" alignItems="baseline">
